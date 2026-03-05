@@ -41,13 +41,35 @@ class Robots
      *
      * @return string
      */
-    public static function run($speech = null)
+    public static function run(?string $speech = null): string
     {
         if (! isset($speech)) {
             $speech = 'KILL ALL HUMANS!';
         }
 
-        $eye = \Cli::color('*', 'red');
+        return self::renderRobot($speech, 'red');
+    }
+
+    /**
+     * An example method that is here just to show the various uses of tasks.
+     *
+     * Usage (from command line):
+     *
+     * php oil r robots:protect
+     *
+     * @return string
+     */
+    public static function protect(): string
+    {
+        return self::renderRobot('PROTECT ALL HUMANS', 'green');
+    }
+
+    /**
+     * Render an ASCII robot with the given speech text and eye color.
+     */
+    private static function renderRobot(string $speech, string $eyeColor): string
+    {
+        $eye = \Cli::color('*', $eyeColor);
 
         return \Cli::color("
 					\"{$speech}\"
@@ -71,43 +93,4 @@ class Robots
 			     |_____| |_____|
 			     |HHHHH| |HHHHH|', 'blue');
     }
-
-    /**
-     * An example method that is here just to show the various uses of tasks.
-     *
-     * Usage (from command line):
-     *
-     * php oil r robots:protect
-     *
-     * @return string
-     */
-    public static function protect()
-    {
-        $eye = \Cli::color('*', 'green');
-
-        return \Cli::color('
-					"PROTECT ALL HUMANS"
-			          _____     /
-			         /_____\\', 'blue')."\n"
-.\Cli::color('			    ____[\\', 'blue').$eye.\Cli::color('---', 'blue').$eye.\Cli::color('/]____', 'blue')."\n"
-.\Cli::color('			   /\\ #\\ \\_____/ /# /\\
-			  /  \\# \\_.---._/ #/  \\
-			 /   /|\\  |   |  /|\\   \\
-			/___/ | | |   | | | \\___\\
-			|  |  | | |---| | |  |  |
-			|__|  \\_| |_#_| |_/  |__|
-			//\\\\  <\\ _//^\\\\_ />  //\\\\
-			\\||/  |\\//// \\\\\\\\/|  \\||/
-			      |   |   |   |
-			      |---|   |---|
-			      |---|   |---|
-			      |   |   |   |
-			      |___|   |___|
-			      /   \\   /   \\
-			     |_____| |_____|
-			     |HHHHH| |HHHHH|', 'blue');
-
-    }
 }
-
-/* End of file tasks/robots.php */

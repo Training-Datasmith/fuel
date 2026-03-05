@@ -26,7 +26,7 @@ class Presenter_Welcome_Hello extends Presenter
      *
      * @return void
      */
-    public function view()
+    public function view(): void
     {
         $this->name = $this->request()->param('name', 'World');
     }

@@ -96,7 +96,8 @@ defined('FUEL_START_MEM') or define('FUEL_START_MEM', memory_get_usage());
  */
 
 if (! file_exists(COREPATH.'classes'.DIRECTORY_SEPARATOR.'autoloader.php')) {
-    die('No composer autoloader found. Please run composer to install the FuelPHP framework dependencies first!');
+    fwrite(STDERR, "No composer autoloader found. Please run composer to install the FuelPHP framework dependencies first!\n");
+    exit(1);
 }
 
 /**
@@ -171,6 +172,8 @@ try {
     $response = $routerequest('_404_', $e);
 } catch (HttpServerErrorException $e) {
     $response = $routerequest('_500_', $e);
+} catch (\Throwable $e) {
+    throw $e;
 }
 
 $response->body((string) $response);

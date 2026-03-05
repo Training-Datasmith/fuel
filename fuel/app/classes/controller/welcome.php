@@ -26,7 +26,6 @@ class Controller_Welcome extends Controller
     /**
      * The basic welcome message
      *
-     * @access  public
      * @return  Response
      */
     public function action_index()
@@ -38,7 +37,6 @@ class Controller_Welcome extends Controller
      * A typical "Hello, Bob!" type example.  This uses a Presenter to
      * show how to use them.
      *
-     * @access  public
      * @return  Response
      */
     public function action_hello()
@@ -49,7 +47,6 @@ class Controller_Welcome extends Controller
     /**
      * The 404 action for the application.
      *
-     * @access  public
      * @return  Response
      */
     public function action_404()
