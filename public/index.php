@@ -30,7 +30,11 @@ declare(strict_types=1);
 
 error_reporting(-1);
 
-ini_set('display_errors', 1);
+if (getenv('FUEL_ENV') !== 'production') {
+    ini_set('display_errors', '1');
+} else {
+    ini_set('display_errors', '0');
+}
 
 /**
  * -----------------------------------------------------------------------------

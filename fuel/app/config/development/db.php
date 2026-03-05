@@ -24,9 +24,9 @@ declare(strict_types=1);
 return [
     'default' => [
         'connection' => [
-            'dsn'      => 'mysql:host=localhost;dbname=fuel_dev',
-            'username' => 'root',
-            'password' => 'root',
+            'dsn'      => getenv('DB_DSN') ?: 'mysql:host=localhost;dbname=fuel_dev',
+            'username' => getenv('DB_USERNAME') ?: 'root',
+            'password' => getenv('DB_PASSWORD') ?: '',
         ],
     ],
 ];

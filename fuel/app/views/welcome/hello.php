@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Hello, <?php echo $name; ?></title>
+	<title>Hello, <?php echo htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?></title>
 	<?php echo Asset::css('bootstrap.css'); ?>
 	<style>
 		#logo{
@@ -38,7 +38,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<h1>Hello, <?php echo $name; ?>! <small>Congratulations, you just used a Presenter!</small></h1>
+				<h1>Hello, <?php echo htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>! <small>Congratulations, you just used a Presenter!</small></h1>
 				<hr>
 				<p>The controller generating this page is found at <code>APPPATH/classes/controller/welcome.php</code>.</p>
 				<p>This view is located at <code>APPPATH/views/welcome/hello.php</code>.</p>

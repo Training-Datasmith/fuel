@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title><?php echo $title; ?></title>
+	<title><?php echo htmlspecialchars($title, ENT_QUOTES, 'UTF-8'); ?></title>
 	<?php echo Asset::css('bootstrap.css'); ?>
 	<style>
 		#logo{
@@ -38,7 +38,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<h1><?php echo $title; ?> <small>We can't find that!</small></h1>
+				<h1><?php echo htmlspecialchars($title, ENT_QUOTES, 'UTF-8'); ?> <small>We can't find that!</small></h1>
 				<hr>
 				<p>The controller generating this page is found at <code>APPPATH/classes/controller/welcome.php</code>.</p>
 				<p>This view is located at <code>APPPATH/views/welcome/404.php</code>.</p>
