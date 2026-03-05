@@ -20,6 +20,6 @@
  *
  */
 
-return array(
+return [
 
-);
+];

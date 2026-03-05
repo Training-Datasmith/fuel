@@ -19,12 +19,12 @@
  *
  */
 
-return array(
-	'default' => array(
-		'connection' => array(
+return [
+	'default' => [
+		'connection' => [
 			'dsn'      => 'mysql:host=localhost;dbname=fuel_prod',
 			'username' => 'fuel_app',
 			'password' => 'super_secret_password',
-		),
-	),
-);
+		],
+	],
+];

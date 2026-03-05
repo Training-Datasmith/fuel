@@ -10,7 +10,7 @@
  * @link       https://fuelphp.com
  */
 
-return array(
+return [
 	/**
 	 * -------------------------------------------------------------------------
 	 *  The base URL of the application
@@ -208,7 +208,7 @@ return array(
 	 * -------------------------------------------------------------------------
 	 */
 
-	'security' => array(
+	'security' => [
 		/**
 		 * ---------------------------------------------------------------------
 		 *  CSRF settings
@@ -254,7 +254,7 @@ return array(
 		 * ---------------------------------------------------------------------
 		 */
 
-		'uri_filter' => array('htmlentities'),
+		'uri_filter' => ['htmlentities'],
 
 		// 'input_filter' => array(),
 
@@ -268,7 +268,7 @@ return array(
 		 * ---------------------------------------------------------------------
 		 */
 
-		'output_filter' => array('Security::htmlentities'),
+		'output_filter' => ['Security::htmlentities'],
 
 		/**
 		 * ---------------------------------------------------------------------
@@ -302,14 +302,14 @@ return array(
 		 * ---------------------------------------------------------------------
 		 */
 
-		'whitelisted_classes' => array(
+		'whitelisted_classes' => [
 			'Fuel\\Core\\Presenter',
 			'Fuel\\Core\\Response',
 			'Fuel\\Core\\View',
 			'Fuel\\Core\\ViewModel',
 			'Closure',
-		),
-	),
+		],
+	],
 
 	/**
 	 * -------------------------------------------------------------------------
@@ -439,9 +439,9 @@ return array(
 	 *
 	 */
 
-	'package_paths' => array(
+	'package_paths' => [
 		PKGPATH,
-	),
+	],
 
 	/**
 	 * -------------------------------------------------------------------------
@@ -532,4 +532,4 @@ return array(
 
 		// 'language' => array(),
 	// ),
-);
+];

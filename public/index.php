@@ -134,11 +134,11 @@ $routerequest = function($request = null, $e = false)
 	}
 	elseif ($route)
 	{
-		$response = Request::forge($route, false)->execute(array($e))->response();
+		$response = Request::forge($route, false)->execute([$e])->response();
 	}
 	elseif ($request)
 	{
-		$response = Request::forge($request)->execute(array($e))->response();
+		$response = Request::forge($request)->execute([$e])->response();
 	}
 	else
 	{
@@ -207,8 +207,8 @@ if (strpos($response->body(), '{exec_time}') !== false or strpos($response->body
 
 	$response->body(
 		str_replace(
-			array('{exec_time}', '{mem_usage}'),
-			array(round($bm[0], 4), round($bm[1] / pow(1024, 2), 3)),
+			['{exec_time}', '{mem_usage}'],
+			[round($bm[0], 4), round($bm[1] / pow(1024, 2), 3)],
 			$response->body()
 		)
 	);

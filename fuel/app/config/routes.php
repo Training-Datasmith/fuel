@@ -10,7 +10,7 @@
  * @link       https://fuelphp.com
  */
 
-return array(
+return [
 	/**
 	 * -------------------------------------------------------------------------
 	 *  Default route
@@ -38,5 +38,5 @@ return array(
 	 *
 	 */
 
-	'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),
-);
+	'hello(/:name)?' => ['welcome/hello', 'name' => 'hello'],
+];
