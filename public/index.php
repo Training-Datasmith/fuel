@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
+ * Fuel is a fast, lightweight, community driven PHP 8.2+ framework.
  *
  * @package    Fuel
  * @version    1.8.2
@@ -186,7 +186,7 @@ $response->body((string) $response);
  *
  */
 
-if (strpos($response->body(), '{exec_time}') !== false or strpos($response->body(), '{mem_usage}') !== false) {
+if (str_contains($response->body(), '{exec_time}') or str_contains($response->body(), '{mem_usage}')) {
     $bm = Profiler::app_total();
 
     $response->body(

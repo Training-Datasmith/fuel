@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
+ * Fuel is a fast, lightweight, community driven PHP 8.2+ framework.
  *
  * @package    Fuel
  * @version    1.8.2
@@ -31,7 +31,7 @@ require COREPATH.'bootstrap.php';
  * Fuel::STAGING
  * Fuel::PRODUCTION
  */
-Fuel::$env = Arr::get($_SERVER, 'FUEL_ENV', Arr::get($_ENV, 'FUEL_ENV', getenv('FUEL_ENV') ?: Fuel::DEVELOPMENT));
+Fuel::$env = $_SERVER['FUEL_ENV'] ?? $_ENV['FUEL_ENV'] ?? getenv('FUEL_ENV') ?: Fuel::DEVELOPMENT;
 
 // Initialize the framework with the config file.
 \Fuel::init('config.php');
