@@ -217,8 +217,8 @@ return [
          * ---------------------------------------------------------------------
          */
 
-        // 'csrf_autoload'            => false,
-        // 'csrf_autoload_methods'    => array('post', 'put', 'delete'),
+        'csrf_autoload'            => true,
+        'csrf_autoload_methods'    => ['post', 'put', 'delete'],
         // 'csrf_bad_request_on_fail' => false,
         // 'csrf_auto_token'          => false,
         // 'csrf_token_key'           => 'fuel_csrf_token',
@@ -350,7 +350,7 @@ return [
          * ---------------------------------------------------------------------
          */
 
-        // 'secure' => false,
+        'secure' => true,
 
         /**
          * ---------------------------------------------------------------------
@@ -358,7 +358,7 @@ return [
          * ---------------------------------------------------------------------
          */
 
-        // 'http_only' => false,
+        'http_only' => true,
     // ),
 
     /**
