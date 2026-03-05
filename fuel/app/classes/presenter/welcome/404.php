@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
  *
@@ -18,15 +20,15 @@
  */
 class Presenter_Welcome_404 extends Presenter
 {
-	/**
-	 * Prepare the view data, keeping this in here helps clean up
-	 * the controller.
-	 *
-	 * @return void
-	 */
-	public function view()
-	{
-		$messages = ['Aw, crap!', 'Bloody Hell!', 'Uh Oh!', 'Nope, not here.', 'Huh?'];
-		$this->title = $messages[array_rand($messages)];
-	}
+    /**
+     * Prepare the view data, keeping this in here helps clean up
+     * the controller.
+     *
+     * @return void
+     */
+    public function view()
+    {
+        $messages = ['Aw, crap!', 'Bloody Hell!', 'Uh Oh!', 'Nope, not here.', 'Huh?'];
+        $this->title = $messages[array_rand($messages)];
+    }
 }

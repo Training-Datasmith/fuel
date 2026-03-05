@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
  *
@@ -26,34 +28,33 @@ namespace Fuel\Tasks;
 
 class Robots
 {
-	/**
-	 * This method gets ran when a valid method name is not used in the command.
-	 *
-	 * Usage (from command line):
-	 *
-	 * php oil r robots
-	 *
-	 * or
-	 *
-	 * php oil r robots "Kill all Mice"
-	 *
-	 * @return string
-	 */
-	public static function run($speech = null)
-	{
-		if ( ! isset($speech))
-		{
-			$speech = 'KILL ALL HUMANS!';
-		}
+    /**
+     * This method gets ran when a valid method name is not used in the command.
+     *
+     * Usage (from command line):
+     *
+     * php oil r robots
+     *
+     * or
+     *
+     * php oil r robots "Kill all Mice"
+     *
+     * @return string
+     */
+    public static function run($speech = null)
+    {
+        if (! isset($speech)) {
+            $speech = 'KILL ALL HUMANS!';
+        }
 
-		$eye = \Cli::color("*", 'red');
+        $eye = \Cli::color('*', 'red');
 
-		return \Cli::color("
+        return \Cli::color("
 					\"{$speech}\"
 			          _____     /
 			         /_____\\", 'blue')."\n"
-.\Cli::color("			    ____[\\", 'blue').$eye.\Cli::color('---', 'blue').$eye.\Cli::color('/]____', 'blue')."\n"
-.\Cli::color("			   /\\ #\\ \\_____/ /# /\\
+.\Cli::color('			    ____[\\', 'blue').$eye.\Cli::color('---', 'blue').$eye.\Cli::color('/]____', 'blue')."\n"
+.\Cli::color('			   /\\ #\\ \\_____/ /# /\\
 			  /  \\# \\_.---._/ #/  \\
 			 /   /|\\  |   |  /|\\   \\
 			/___/ | | |   | | | \\___\\
@@ -68,28 +69,28 @@ class Robots
 			      |___|   |___|
 			      /   \\   /   \\
 			     |_____| |_____|
-			     |HHHHH| |HHHHH|", 'blue');
-	}
+			     |HHHHH| |HHHHH|', 'blue');
+    }
 
-	/**
-	 * An example method that is here just to show the various uses of tasks.
-	 *
-	 * Usage (from command line):
-	 *
-	 * php oil r robots:protect
-	 *
-	 * @return string
-	 */
-	public static function protect()
-	{
-		$eye = \Cli::color("*", 'green');
+    /**
+     * An example method that is here just to show the various uses of tasks.
+     *
+     * Usage (from command line):
+     *
+     * php oil r robots:protect
+     *
+     * @return string
+     */
+    public static function protect()
+    {
+        $eye = \Cli::color('*', 'green');
 
-		return \Cli::color("
-					\"PROTECT ALL HUMANS\"
+        return \Cli::color('
+					"PROTECT ALL HUMANS"
 			          _____     /
-			         /_____\\", 'blue')."\n"
-.\Cli::color("			    ____[\\", 'blue').$eye.\Cli::color('---', 'blue').$eye.\Cli::color('/]____', 'blue')."\n"
-.\Cli::color("			   /\\ #\\ \\_____/ /# /\\
+			         /_____\\', 'blue')."\n"
+.\Cli::color('			    ____[\\', 'blue').$eye.\Cli::color('---', 'blue').$eye.\Cli::color('/]____', 'blue')."\n"
+.\Cli::color('			   /\\ #\\ \\_____/ /# /\\
 			  /  \\# \\_.---._/ #/  \\
 			 /   /|\\  |   |  /|\\   \\
 			/___/ | | |   | | | \\___\\
@@ -104,9 +105,9 @@ class Robots
 			      |___|   |___|
 			      /   \\   /   \\
 			     |_____| |_____|
-			     |HHHHH| |HHHHH|", 'blue');
+			     |HHHHH| |HHHHH|', 'blue');
 
-	}
+    }
 }
 
 /* End of file tasks/robots.php */

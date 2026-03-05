@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
  *
@@ -13,8 +15,7 @@
 /**
  * Refuse to run oil when called from php-cgi !
  */
-if (substr(php_sapi_name(), 0, 3) == 'cgi')
-{
+if (substr(php_sapi_name(), 0, 3) == 'cgi') {
     die("The use of oil is not supported when running php-cgi. Oil needs php-cli to function!\n\n");
 }
 
@@ -49,8 +50,7 @@ defined('FUEL_START_TIME') or define('FUEL_START_TIME', microtime(true));
 defined('FUEL_START_MEM') or define('FUEL_START_MEM', memory_get_usage());
 
 // Load in the Fuel autoloader
-if ( ! file_exists(COREPATH.'classes'.DIRECTORY_SEPARATOR.'autoloader.php'))
-{
+if (! file_exists(COREPATH.'classes'.DIRECTORY_SEPARATOR.'autoloader.php')) {
     die("No composer autoloader found. Please run composer to install the FuelPHP framework dependencies first!\n\n");
 }
 
