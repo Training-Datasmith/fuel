@@ -56,7 +56,16 @@ define('DOCROOT', __DIR__.DIRECTORY_SEPARATOR);
  * -----------------------------------------------------------------------------
  */
 
-define('APPPATH', realpath(__DIR__.'/../fuel/app/').DIRECTORY_SEPARATOR);
+$apppath = realpath(__DIR__.'/../fuel/app/');
+$pkgpath = realpath(__DIR__.'/../fuel/packages/');
+$corepath = realpath(__DIR__.'/../fuel/core/');
+
+if ($apppath === false || $pkgpath === false || $corepath === false) {
+    fwrite(STDERR, "Unable to resolve framework paths. Please verify your FuelPHP installation.\n");
+    exit(1);
+}
+
+define('APPPATH', $apppath.DIRECTORY_SEPARATOR);
 
 /**
  * -----------------------------------------------------------------------------
@@ -64,7 +73,7 @@ define('APPPATH', realpath(__DIR__.'/../fuel/app/').DIRECTORY_SEPARATOR);
  * -----------------------------------------------------------------------------
  */
 
-define('PKGPATH', realpath(__DIR__.'/../fuel/packages/').DIRECTORY_SEPARATOR);
+define('PKGPATH', $pkgpath.DIRECTORY_SEPARATOR);
 
 /**
  * -----------------------------------------------------------------------------
@@ -72,7 +81,7 @@ define('PKGPATH', realpath(__DIR__.'/../fuel/packages/').DIRECTORY_SEPARATOR);
  * -----------------------------------------------------------------------------
  */
 
-define('COREPATH', realpath(__DIR__.'/../fuel/core/').DIRECTORY_SEPARATOR);
+define('COREPATH', $corepath.DIRECTORY_SEPARATOR);
 
 /**
  * -----------------------------------------------------------------------------

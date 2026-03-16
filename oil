@@ -15,7 +15,7 @@ declare(strict_types=1);
 /**
  * Refuse to run oil when called from php-cgi !
  */
-if (str_starts_with(php_sapi_name(), 'cgi')) {
+if (str_starts_with(PHP_SAPI, 'cgi')) {
     fwrite(STDERR, "The use of oil is not supported when running php-cgi. Oil needs php-cli to function!\n\n");
     exit(1);
 }
@@ -39,17 +39,26 @@ define('DOCROOT', __DIR__.DIRECTORY_SEPARATOR);
 /**
  * Path to the application directory.
  */
-define('APPPATH', realpath(__DIR__.'/fuel/app/').DIRECTORY_SEPARATOR);
+$apppath = realpath(__DIR__.'/fuel/app/');
+$pkgpath = realpath(__DIR__.'/fuel/packages/');
+$corepath = realpath(__DIR__.'/fuel/core/');
+
+if ($apppath === false || $pkgpath === false || $corepath === false) {
+    fwrite(STDERR, "Unable to resolve framework paths. Please verify your FuelPHP installation.\n");
+    exit(1);
+}
+
+define('APPPATH', $apppath.DIRECTORY_SEPARATOR);
 
 /**
  * Path to the default packages directory.
  */
-define('PKGPATH', realpath(__DIR__.'/fuel/packages/').DIRECTORY_SEPARATOR);
+define('PKGPATH', $pkgpath.DIRECTORY_SEPARATOR);
 
 /**
  * The path to the framework core.
  */
-define('COREPATH', realpath(__DIR__.'/fuel/core/').DIRECTORY_SEPARATOR);
+define('COREPATH', $corepath.DIRECTORY_SEPARATOR);
 
 // Get the start time and memory for use later
 defined('FUEL_START_TIME') or define('FUEL_START_TIME', microtime(true));
@@ -71,5 +80,5 @@ require APPPATH.'bootstrap.php';
 // Load oil package
 \Package::load('oil');
 
-// Fire up the command line interfact
-\Oil\Command::init($_SERVER['argv']);
+// Fire up the command line interface
+\Oil\Command::init($_SERVER['argv'] ?? []);
