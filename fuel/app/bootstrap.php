@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Fuel is a fast, lightweight, community driven PHP 8.2+ framework.
  *
@@ -11,18 +11,12 @@ declare(strict_types=1);
  * @copyright  2010 - 2019 Fuel Development Team
  * @link       https://fuelphp.com
  */
-
 // Bootstrap the framework - THIS LINE NEEDS TO BE FIRST!
-require COREPATH.'bootstrap.php';
-
+require COREPATH . 'bootstrap.php';
 // Add framework overload classes here
-\Autoloader::add_classes([
-    // Example: 'View' => APPPATH.'classes/myview.php',
-]);
-
+\Autoloader::add_classes([]);
 // Register the autoloader
 \Autoloader::register();
-
 /**
  * Your environment.  Can be set to any of the following:
  *
@@ -32,8 +26,7 @@ require COREPATH.'bootstrap.php';
  * Fuel::PRODUCTION
  */
 $env = $_SERVER['FUEL_ENV'] ?? $_ENV['FUEL_ENV'] ?? getenv('FUEL_ENV') ?: Fuel::DEVELOPMENT;
-$allowedEnvs = [Fuel::DEVELOPMENT, Fuel::TEST, Fuel::STAGING, Fuel::PRODUCTION];
-Fuel::$env = in_array($env, $allowedEnvs, true) ? $env : Fuel::DEVELOPMENT;
-
+$allowed_envs = [Fuel::DEVELOPMENT, Fuel::TEST, Fuel::STAGING, Fuel::PRODUCTION];
+Fuel::$env = in_array($env, $allowed_envs, true) ? $env : Fuel::DEVELOPMENT;
 // Initialize the framework with the config file.
 \Fuel::init('config.php');

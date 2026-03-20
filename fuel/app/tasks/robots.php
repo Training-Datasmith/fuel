@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * Fuel is a fast, lightweight, community driven PHP 8.2+ framework.
  *
@@ -11,7 +11,6 @@ declare(strict_types=1);
  * @copyright  2010 - 2019 Fuel Development Team
  * @link       https://fuelphp.com
  */
-
 namespace Fuel\Tasks;
 
 /**
@@ -25,7 +24,6 @@ namespace Fuel\Tasks;
  * @version		1.0
  * @author		Phil Sturgeon
  */
-
 class Robots
 {
     /**
@@ -43,13 +41,11 @@ class Robots
      */
     public static function run(?string $speech = null): string
     {
-        if (! isset($speech)) {
+        if (!isset($speech)) {
             $speech = 'KILL ALL HUMANS!';
         }
-
-        return self::renderRobot($speech, 'red');
+        return self::render_robot($speech, 'red');
     }
-
     /**
      * An example method that is here just to show the various uses of tasks.
      *
@@ -61,35 +57,28 @@ class Robots
      */
     public static function protect(): string
     {
-        return self::renderRobot('PROTECT ALL HUMANS', 'green');
+        return self::render_robot('PROTECT ALL HUMANS', 'green');
     }
-
     /**
      * Render an ASCII robot with the given speech text and eye color.
      */
-    private static function renderRobot(string $speech, string $eyeColor): string
+    private static function render_robot(string $speech, string $eye_color): string
     {
-        $eye = \Cli::color('*', $eyeColor);
-
-        return \Cli::color("
-					\"{$speech}\"
-			          _____     /
-			         /_____\\", 'blue')."\n"
-.\Cli::color('			    ____[\\', 'blue').$eye.\Cli::color('---', 'blue').$eye.\Cli::color('/]____', 'blue')."\n"
-.\Cli::color('			   /\\ #\\ \\_____/ /# /\\
-			  /  \\# \\_.---._/ #/  \\
-			 /   /|\\  |   |  /|\\   \\
-			/___/ | | |   | | | \\___\\
+        $eye = \Cli::color('*', $eye_color);
+        return \Cli::color("\n\t\t\t\t\t\"{$speech}\"\n\t\t\t          _____     /\n\t\t\t         /_____\\", 'blue') . "\n" . \Cli::color('			    ____[\\', 'blue') . $eye . \Cli::color('---', 'blue') . $eye . \Cli::color('/]____', 'blue') . "\n" . \Cli::color('			   /\ #\ \_____/ /# /\
+			  /  \# \_.---._/ #/  \
+			 /   /|\  |   |  /|\   \
+			/___/ | | |   | | | \___\
 			|  |  | | |---| | |  |  |
-			|__|  \\_| |_#_| |_/  |__|
-			//\\\\  <\\ _//^\\\\_ />  //\\\\
-			\\||/  |\\//// \\\\\\\\/|  \\||/
+			|__|  \_| |_#_| |_/  |__|
+			//\\\\  <\ _//^\\\\_ />  //\\\\
+			\||/  |\//// \\\\\\\\/|  \||/
 			      |   |   |   |
 			      |---|   |---|
 			      |---|   |---|
 			      |   |   |   |
 			      |___|   |___|
-			      /   \\   /   \\
+			      /   \   /   \
 			     |_____| |_____|
 			     |HHHHH| |HHHHH|', 'blue');
     }
