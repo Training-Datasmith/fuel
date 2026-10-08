@@ -1,0 +1,37 @@
+{
+    "_hash": "dbeee4a285c92716b4731ecf905d6a5e94e749351f19adbd5c3f289fb0b11151",
+    "patches": {
+        "fuel/core": [
+            {
+                "package": "fuel/core",
+                "description": "PHP 8: default missing Content-Type header to empty string",
+                "url": "patches/fuel-core/php8-input-content-type.patch",
+                "sha256": "dc4e72cb19892aeea8306679112028dd720349501361837dbc97af8bdce5456b",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            },
+            {
+                "package": "fuel/core",
+                "description": "PHP 8.2: avoid deprecated static:: callable form in Security::clean",
+                "url": "patches/fuel-core/php8-security-callable.patch",
+                "sha256": "b6528c332c8cb582c80117cd3f9ed9d94cde2abe2c4c233f3204a0393dea3ed5",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            },
+            {
+                "package": "fuel/core",
+                "description": "PHP 8: cast null request module before ucfirst in Presenter::forge",
+                "url": "patches/fuel-core/php8-presenter-module.patch",
+                "sha256": "b2f018f4cea5bf54a038aea9f6f3a5b4c5324c32652f96ef4b1df2c0c241ee09",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ]
+    }
+}
