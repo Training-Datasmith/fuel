@@ -3,6 +3,7 @@
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
          colors="true"
          stopOnFailure="false"
+         cacheResult="false"
          bootstrap="tests/bootstrap.php">
 	<php>
 		<server name="doc_root" value="../../"/>

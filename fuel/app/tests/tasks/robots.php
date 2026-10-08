@@ -7,16 +7,20 @@
  */
 class Tests_Robots extends TestCase
 {
+	/** @var bool */
+	protected $previousCliNocolor;
+
 	protected function setUp(): void
 	{
 		parent::setUp();
 		require_once APPPATH.'tasks/robots.php';
+		$this->previousCliNocolor = \Cli::$nocolor;
 		\Cli::$nocolor = true;
 	}
 
 	protected function tearDown(): void
 	{
-		\Cli::$nocolor = false;
+		\Cli::$nocolor = $this->previousCliNocolor;
 		parent::tearDown();
 	}
 
@@ -60,7 +64,7 @@ class Tests_Robots extends TestCase
 		);
 
 		$this->assertFalse($result['timed_out']);
-		$this->assertSame(0, $result['exit_code']);
+		Subprocess::assertExitCode($result, 0);
 		Subprocess::assertCleanStreams($result['stdout'], $result['stderr']);
 		$this->assertStringContainsString('KILL ALL HUMANS', $result['stdout']);
 	}
@@ -76,7 +80,7 @@ class Tests_Robots extends TestCase
 		);
 
 		$this->assertFalse($result['timed_out']);
-		$this->assertSame(0, $result['exit_code']);
+		Subprocess::assertExitCode($result, 0);
 		Subprocess::assertCleanStreams($result['stdout'], $result['stderr']);
 		$this->assertStringContainsString('PROTECT ALL HUMANS', $result['stdout']);
 	}

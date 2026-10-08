@@ -1,8 +1,15 @@
 {
     "name": "fuel/fuel",
     "type": "project",
-    "description" : "FuelPHP is a simple, flexible, community driven PHP 5.4+ framework, based on the best ideas of other frameworks, with a fresh start!",
-    "keywords": ["application", "website", "development", "framework", "PHP", "PHP7"],
+    "description": "FuelPHP is a simple, flexible, community driven PHP 8.2+ application skeleton, based on the best ideas of other frameworks, with a fresh start!",
+    "keywords": [
+        "application",
+        "website",
+        "development",
+        "framework",
+        "PHP",
+        "PHP7"
+    ],
     "license": "MIT",
     "require": {
         "php": ">=8.2",
@@ -21,7 +28,7 @@
         "phpunit/phpunit": "11.5.57"
     },
     "suggest": {
-        "dwoo/dwoo" : "Allow Dwoo templating with the Parser package",
+        "dwoo/dwoo": "Allow Dwoo templating with the Parser package",
         "mustache/mustache": "Allow Mustache templating with the Parser package",
         "smarty/smarty": "Allow Smarty templating with the Parser package",
         "twig/twig": "Allow Twig templating with the Parser package",
@@ -34,12 +41,21 @@
         "allow-plugins": {
             "composer/installers": true,
             "cweagans/composer-patches": true
+        },
+        "audit": {
+            "ignore": {
+                "PKSA-12sz-bcny-pk4m": "phpseclib 2.0.55 via fuel/core 1.8.*; no 2.x fix; deferred until Fuel 1.9 migration"
+            }
         }
     },
     "extra": {
         "installer-paths": {
-            "fuel/{$name}": ["fuel/core"],
-            "{$name}": ["fuel/docs"]
+            "fuel/{$name}": [
+                "fuel/core"
+            ],
+            "{$name}": [
+                "fuel/docs"
+            ]
         },
         "patches": {
             "fuel/core": {

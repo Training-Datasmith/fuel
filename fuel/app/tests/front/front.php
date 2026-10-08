@@ -18,7 +18,7 @@ class Tests_Front extends TestCase
 		);
 
 		$this->assertFalse($result['timed_out']);
-		$this->assertSame(0, $result['exit_code']);
+		Subprocess::assertExitCode($result, 0);
 		Subprocess::assertCleanStreams($result['stdout'], $result['stderr']);
 		$this->assertStringContainsString('Welcome!', $result['stdout']);
 		$this->assertStringContainsString('successfully installed', $result['stdout']);
@@ -38,7 +38,7 @@ class Tests_Front extends TestCase
 		);
 
 		$this->assertFalse($result['timed_out']);
-		$this->assertSame(0, $result['exit_code']);
+		Subprocess::assertExitCode($result, 0);
 		Subprocess::assertCleanStreams($result['stdout'], $result['stderr']);
 
 		$matches = array();
@@ -61,19 +61,19 @@ class Tests_Front extends TestCase
 		);
 
 		$this->assertFalse($result['timed_out']);
-		$this->assertSame(0, $result['exit_code']);
+		Subprocess::assertExitCode($result, 0);
 		Subprocess::assertCleanStreams($result['stdout'], $result['stderr']);
 		$this->assertStringContainsString("We can't find that!", $result['stdout']);
 		$this->assertStringNotContainsString('{exec_time}', $result['stdout']);
 
 		$matches = array();
 		$this->assertSame(1, preg_match('/<title>(.*?)<\/title>/s', $result['stdout'], $matches));
-		$this->assertTrue(in_array($matches[1], array(
+		$this->assertContains($matches[1], array(
 			'Aw, crap!',
 			'Bloody Hell!',
 			'Uh Oh!',
 			'Nope, not here.',
 			'Huh?',
-		), true));
+		));
 	}
 }

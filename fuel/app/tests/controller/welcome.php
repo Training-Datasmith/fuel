@@ -78,25 +78,20 @@ class Tests_Controller_Welcome extends RequestTestCase
 		$this->assertSame(404, $response->status);
 		$this->assertSame('welcome/404', \Config::get('routes._404_'));
 		$body = (string) $response->body();
-		$this->assertTrue(in_array($this->extractTitle($body), array(
+		$this->assertContains($this->extractTitle($body), array(
 			'Aw, crap!',
 			'Bloody Hell!',
 			'Uh Oh!',
 			'Nope, not here.',
 			'Huh?',
-		), true));
+		));
 		$this->assertStringContainsString("We can't find that!", $body);
 	}
 
 	public function test_missing_controller_throws_not_found_exception()
 	{
 		\Request::reset_request(true);
-		try {
-			\Request::forge('no/such/page')->execute();
-			$this->fail('Expected HttpNotFoundException was not thrown.');
-		} catch (\HttpNotFoundException $e) {
-			$this->assertInstanceOf('HttpNotFoundException', $e);
-		}
-		\Request::reset_request(true);
+		$this->expectException(\HttpNotFoundException::class);
+		\Request::forge('no/such/page')->execute();
 	}
 }
