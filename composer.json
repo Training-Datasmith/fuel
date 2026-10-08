@@ -41,11 +41,6 @@
         "allow-plugins": {
             "composer/installers": true,
             "cweagans/composer-patches": true
-        },
-        "audit": {
-            "ignore": {
-                "PKSA-12sz-bcny-pk4m": "phpseclib 2.0.55 via fuel/core 1.8.*; no 2.x fix; deferred until Fuel 1.9 migration"
-            }
         }
     },
     "extra": {
