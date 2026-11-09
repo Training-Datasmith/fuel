@@ -11,7 +11,7 @@ class Tests_Packages_Parser extends TestCase
 		$html = (string) \Parser\View::forge('cluster/note.md', array(), false);
 		$this->assertStringContainsString('<h1>Cluster title</h1>', $html);
 		$this->assertStringContainsString('<strong>cluster-bold</strong>', $html);
-		$this->assertIncludedPackageFile('fuel/packages/parser/classes/view.php');
+		$this->assertIncludedPackageFile('fuel/packages/parser/classes/view/markdown.php');
 	}
 
 	public function test_mustache_view_renders_interpolation()

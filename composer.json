@@ -32,7 +32,6 @@
     },
     "require-dev": {
         "fuel/docs": "dev-remote-test-2026-10-07 as 1.8.99",
-        "erusev/parsedown": "1.7.4",
         "mustache/mustache": "3.2.0",
         "phpunit/phpunit": "11.5.57"
     },

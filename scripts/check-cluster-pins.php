@@ -72,7 +72,7 @@ $expected = array(
         'url_contains' => 'Training-Datasmith/log',
     ),
     'fuel/core' => array(
-        'sha' => 'd41b1db4e0285e4236bf45e65ff65903ac1af2d2',
+        'sha' => '6c61ad32a1a63028e8a08c7b1161e875d2253677',
         'url_contains' => 'Training-Datasmith/core',
     ),
     'fuelphp/upload' => array(

@@ -9,9 +9,18 @@ class Tests_Packages_Orm extends ClusterTestCase
 	protected function setUp(): void
 	{
 		parent::setUp();
-		static::wipeClusterDatabase();
-		\DB::query('CREATE TABLE cluster_posts (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(255) NOT NULL)')->execute();
-		\DB::query('CREATE TABLE cluster_comments (id INTEGER PRIMARY KEY AUTOINCREMENT, body TEXT NOT NULL, post_id INTEGER NOT NULL)')->execute();
+		static::resetClusterDatabase();
+		\DB::query('CREATE TABLE cluster_posts (
+			id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+			title VARCHAR(255) NOT NULL,
+			PRIMARY KEY (id)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8')->execute();
+		\DB::query('CREATE TABLE cluster_comments (
+			id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+			body TEXT NOT NULL,
+			post_id INT UNSIGNED NOT NULL,
+			PRIMARY KEY (id)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8')->execute();
 	}
 
 	public function test_post_comment_relation_and_query()

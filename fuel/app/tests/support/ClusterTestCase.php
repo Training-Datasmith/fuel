@@ -5,21 +5,8 @@
 
 abstract class ClusterTestCase extends TestCase
 {
-	/** @var string */
-	protected static $clusterDbFile;
-
-	protected static function clusterDbPath()
+	protected static function resetClusterDatabase()
 	{
-		return APPPATH.'tmp'.DS.'cluster.sqlite';
-	}
-
-	protected static function wipeClusterDatabase()
-	{
-		$path = static::clusterDbPath();
-		if (is_file($path))
-		{
-			unlink($path);
-		}
 		try
 		{
 			\DB::instance()->disconnect();
@@ -27,6 +14,15 @@ abstract class ClusterTestCase extends TestCase
 		catch (\Exception $e)
 		{
 		}
+
+		\DB::query('SET FOREIGN_KEY_CHECKS = 0')->execute();
+		$tables = \DB::query('SHOW FULL TABLES')->execute();
+		foreach ($tables as $row)
+		{
+			$values = array_values($row);
+			\DBUtil::drop_table($values[0]);
+		}
+		\DB::query('SET FOREIGN_KEY_CHECKS = 1')->execute();
 	}
 
 	protected function assertIncludedPackageFile($pathFragment)
