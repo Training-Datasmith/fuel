@@ -21,7 +21,6 @@
     "require": {
         "php": ">=8.2",
         "composer/installers": "^2.3.0",
-        "cweagans/composer-patches": "2.0.0",
         "fuel/core": "dev-remote-test-2026-11-09 as 1.8.99",
         "fuel/auth": "dev-ai-training-20260418 as 1.8.99",
         "fuel/email": "dev-remote-test-2026-10-07 as 1.8.99",
@@ -47,8 +46,7 @@
     "config": {
         "vendor-dir": "fuel/vendor",
         "allow-plugins": {
-            "composer/installers": true,
-            "cweagans/composer-patches": true
+            "composer/installers": true
         }
     },
     "extra": {
@@ -59,13 +57,6 @@
             "{$name}": [
                 "fuel/docs"
             ]
-        },
-        "patches": {
-            "fuel/core": {
-                "PHP 8: default missing Content-Type header to empty string": "patches/fuel-core/php8-input-content-type.patch",
-                "PHP 8.2: avoid deprecated static:: callable form in Security::clean": "patches/fuel-core/php8-security-callable.patch",
-                "PHP 8: cast null request module before ucfirst in Presenter::forge": "patches/fuel-core/php8-presenter-module.patch"
-            }
         }
     },
     "scripts": {
