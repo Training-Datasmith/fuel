@@ -19,6 +19,7 @@
 			<directory suffix=".php">tests/controller</directory>
 			<directory suffix=".php">tests/tasks</directory>
 			<directory suffix=".php">tests/front</directory>
+			<directory suffix=".php">tests/packages</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>

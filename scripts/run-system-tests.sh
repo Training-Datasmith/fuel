@@ -30,8 +30,9 @@ export COMPOSER_ALLOW_SUPERUSER=1
 export COMPOSER_NO_INTERACTION=1
 
 apt-get update
-apt-get install -y --no-install-recommends git unzip ca-certificates curl
+apt-get install -y --no-install-recommends git unzip ca-certificates curl libsqlite3-dev
 rm -rf /var/lib/apt/lists/*
+docker-php-ext-install pdo_sqlite
 
 cd /tmp
 curl -fsSL -o composer-setup.php https://getcomposer.org/installer
@@ -76,6 +77,11 @@ fi
 
 if printf '%s\n' "$OUTPUT" | grep -q 'Warning:'; then
   log "FAIL: output contains Warning:"
+  exit 1
+fi
+
+if printf '%s\n' "$OUTPUT" | grep -q 'Deprecated:'; then
+  log "FAIL: output contains Deprecated:"
   exit 1
 fi
 
