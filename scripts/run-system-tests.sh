@@ -40,9 +40,13 @@ php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 rm -f composer-setup.php
 composer --version
 
+git config --global --add safe.directory /workspace
 cd /workspace
 if [[ -d fuel/vendor ]]; then rm -rf fuel/vendor; fi
-composer update --no-interaction --no-security-blocking
+composer update --no-interaction || {
+  echo "COMPOSER_UPDATE_FAILED=1" >&2
+  exit 2
+}
 
 php scripts/check-cluster-pins.php
 
@@ -59,6 +63,11 @@ PHPUNIT_EXIT=$?
 set -e
 
 printf '%s\n' "$OUTPUT"
+
+if printf '%s\n' "$OUTPUT" | grep -q 'COMPOSER_UPDATE_FAILED=1\|Your requirements could not be resolved\|because they are affected by security advisories'; then
+  log "FAIL: composer update did not complete (see output for security advisory blockers; no bypass used)"
+  exit 2
+fi
 
 if printf '%s\n' "$OUTPUT" | grep -q 'Warning:'; then
   log "FAIL: output contains Warning:"
