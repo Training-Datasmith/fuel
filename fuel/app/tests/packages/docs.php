@@ -13,9 +13,15 @@ class Tests_Packages_Docs extends TestCase
 		$contents = file_get_contents($path);
 		$this->assertStringContainsString('Log - Classes - FuelPHP Documentation', $contents);
 
+		$docs_tree_paths = array();
+		$docs_root = DOCROOT.'docs'.DS;
 		foreach (get_included_files() as $file)
 		{
-			$this->assertStringNotContainsString(DOCROOT.'docs'.DS, $file);
+			if (strpos($file, $docs_root) !== false)
+			{
+				$docs_tree_paths[] = $file;
+			}
 		}
+		$this->assertSame(array(), $docs_tree_paths, 'Installed docs must not be PHP-included during tests');
 	}
 }

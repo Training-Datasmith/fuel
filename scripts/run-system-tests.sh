@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 # System test: digest-pinned PHP + MySQL, composer update, pin check, app PHPUnit.
+#
+# MySQL is published on 127.0.0.1 with an ephemeral host port (docker port reads it).
+# PHPUnit reaches MySQL on the Docker bridge via the sidecar container IP (port 3306).
+# Host-only access: 127.0.0.1:<published-port>. host.docker.internal (Docker Engine 20.10+)
+# is for processes on the host; loopback publish is not visible via host-gateway.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -18,10 +23,34 @@ MYSQL_IMAGE='mysql:8.4@sha256:a81d043930e51745522bd5c430961cf8286f0a23f0a9a2a6e0
 COMPOSER_INSTALLER_SHA384='c8b085408188070d5f52bcfe4ecfbee5f727afa458b2573b8eaaf77b3419b0bf2768dc67c86944da1544f06fa544fd47'
 
 MYSQL_CONTAINER="fuel-cluster-mysql-$$"
-MYSQL_HOST_PORT=13306
 
 log() {
   printf '%s\n' "$*" >&2
+}
+
+strip_ansi() {
+  sed 's/\x1b\[[0-9;]*[a-zA-Z]//g; s/\x1b\][^\x07]*\x07//g'
+}
+
+output_has_blocked_messages() {
+  local stripped
+  stripped="$(printf '%s\n' "$1" | strip_ansi)"
+  if printf '%s\n' "$stripped" | grep -q 'Warning:'; then
+    return 0
+  fi
+  if printf '%s\n' "$stripped" | grep -qE '(^| )Deprecated:|: Deprecated:'; then
+    return 0
+  fi
+  if printf '%s\n' "$stripped" | grep -qE 'Runtime (Deprecated code usage|Notice|Recoverable error)'; then
+    return 0
+  fi
+  if printf '%s\n' "$stripped" | grep -qE 'User (Warning|Notice|Deprecated code usage)'; then
+    return 0
+  fi
+  if printf '%s\n' "$stripped" | grep -qE 'Core Warning:'; then
+    return 0
+  fi
+  return 1
 }
 
 cleanup() {
@@ -35,7 +64,7 @@ log "Pulling digest-pinned images..."
 
 log "Starting MySQL sidecar (healthcheck wait)..."
 "${DOCKER[@]}" run -d --name "$MYSQL_CONTAINER" \
-  -p "${MYSQL_HOST_PORT}:3306" \
+  -p 127.0.0.1::3306 \
   -e MYSQL_ROOT_PASSWORD=root_secret \
   -e MYSQL_DATABASE=fuel_cluster_test \
   -e MYSQL_USER=fuel_test \
@@ -47,9 +76,17 @@ log "Starting MySQL sidecar (healthcheck wait)..."
   --health-start-period=15s \
   "$MYSQL_IMAGE" >/dev/null
 
+MYSQL_HOST_PORT=$("${DOCKER[@]}" port "$MYSQL_CONTAINER" 3306/tcp | head -1 | awk -F: '{print $NF}')
+MYSQL_CONTAINER_IP=$("${DOCKER[@]}" inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$MYSQL_CONTAINER")
+if [[ -z "$MYSQL_HOST_PORT" || -z "$MYSQL_CONTAINER_IP" ]]; then
+  log "FAIL: could not resolve MySQL host port or container IP"
+  exit 2
+fi
+log "MySQL on bridge ${MYSQL_CONTAINER_IP}:3306; host publish 127.0.0.1:${MYSQL_HOST_PORT}."
+
 for _ in $(seq 1 90); do
   if [[ "$("${DOCKER[@]}" inspect --format='{{.State.Health.Status}}' "$MYSQL_CONTAINER" 2>/dev/null || echo starting)" == "healthy" ]]; then
-    log "MySQL is healthy on port ${MYSQL_HOST_PORT}."
+    log "MySQL is healthy."
     break
   fi
   sleep 2
@@ -64,8 +101,8 @@ set -euo pipefail
 export DEBIAN_FRONTEND=noninteractive
 export COMPOSER_ALLOW_SUPERUSER=1
 export COMPOSER_NO_INTERACTION=1
-export FUEL_TEST_DB_HOST=host.docker.internal
-export FUEL_TEST_DB_PORT=${MYSQL_HOST_PORT}
+export FUEL_TEST_DB_HOST=${MYSQL_CONTAINER_IP}
+export FUEL_TEST_DB_PORT=3306
 export FUEL_TEST_DB_NAME=fuel_cluster_test
 export FUEL_TEST_DB_USER=fuel_test
 export FUEL_TEST_DB_PASS=fuel_test_secret
@@ -103,8 +140,8 @@ EOF
 set +e
 OUTPUT="$("${DOCKER[@]}" run --rm \
   --add-host=host.docker.internal:host-gateway \
-  -e FUEL_TEST_DB_HOST=host.docker.internal \
-  -e FUEL_TEST_DB_PORT="${MYSQL_HOST_PORT}" \
+  -e FUEL_TEST_DB_HOST="${MYSQL_CONTAINER_IP}" \
+  -e FUEL_TEST_DB_PORT=3306 \
   -e FUEL_TEST_DB_NAME=fuel_cluster_test \
   -e FUEL_TEST_DB_USER=fuel_test \
   -e FUEL_TEST_DB_PASS=fuel_test_secret \
@@ -122,17 +159,12 @@ if printf '%s\n' "$OUTPUT" | grep -q 'COMPOSER_UPDATE_FAILED=1\|COMPOSER_AUDIT_F
   exit 2
 fi
 
-if printf '%s\n' "$OUTPUT" | grep -q 'Warning:'; then
-  log "FAIL: output contains Warning:"
+if output_has_blocked_messages "$OUTPUT"; then
+  log "FAIL: output contains Warning/Deprecated or Fuel Runtime/User/Core notice-class messages"
   exit 1
 fi
 
-if printf '%s\n' "$OUTPUT" | grep -qE '(^| )Deprecated:|: Deprecated:'; then
-  log "FAIL: output contains Deprecated:"
-  exit 1
-fi
-
-if ! printf '%s\n' "$OUTPUT" | grep -qE '^OK \([0-9]+ tests?, [0-9]+ assertions?\)$'; then
+if ! printf '%s\n' "$OUTPUT" | strip_ansi | grep -qE '^OK \([0-9]+ tests?, [0-9]+ assertions?\)$'; then
   log "FAIL: missing full-line PHPUnit OK summary"
   exit 1
 fi
