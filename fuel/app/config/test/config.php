@@ -9,7 +9,4 @@ return array(
 	'always_load' => array(
 		'packages' => array('orm', 'auth', 'email', 'parser'),
 	),
-	'errors' => array(
-		'continue_on' => array(E_DEPRECATED, E_USER_DEPRECATED),
-	),
 );
