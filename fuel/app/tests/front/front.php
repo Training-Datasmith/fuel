@@ -1,10 +1,12 @@
 <?php
+
+use PHPUnit\Framework\Attributes\Group;
+
 /**
  * Front controller subprocess tests.
- *
- * @group App
- * @group Front
  */
+#[Group('App')]
+#[Group('Front')]
 class Tests_Front extends TestCase
 {
 	public function test_front_root_replaces_profiler_placeholders()

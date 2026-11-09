@@ -1,10 +1,12 @@
 <?php
+
+use PHPUnit\Framework\Attributes\Group;
+
 /**
  * Robots oil task tests.
- *
- * @group App
- * @group Robots
  */
+#[Group('App')]
+#[Group('Robots')]
 class Tests_Robots extends TestCase
 {
 	/** @var bool */

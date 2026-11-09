@@ -197,6 +197,7 @@ class Subprocess
 			'Deprecated',
 			'PhpErrorException',
 			'Fatal error',
+			'Warning:',
 			'<h1>Error!</h1>',
 			'Could not find asset',
 		);

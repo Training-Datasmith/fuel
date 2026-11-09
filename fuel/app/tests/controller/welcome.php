@@ -1,10 +1,12 @@
 <?php
+
+use PHPUnit\Framework\Attributes\Group;
+
 /**
  * Welcome controller and routing tests.
- *
- * @group App
- * @group Controller
  */
+#[Group('App')]
+#[Group('Controller')]
 class Tests_Controller_Welcome extends RequestTestCase
 {
 	public function test_index_returns_welcome_page()

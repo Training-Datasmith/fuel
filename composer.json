@@ -11,20 +11,29 @@
         "PHP7"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://raw.githubusercontent.com/Training-Datasmith/composer-index/remote-test-2026-11-09",
+            "canonical": false
+        }
+    ],
     "require": {
         "php": ">=8.2",
-        "composer/installers": "~1.0",
+        "composer/installers": "2.3.0 as 1.99.0",
         "cweagans/composer-patches": "2.0.0",
         "fuel/core": "1.8.*",
-        "fuel/auth": "1.8.*",
-        "fuel/email": "1.8.*",
-        "fuel/oil": "1.8.*",
-        "fuel/orm": "1.8.*",
-        "fuel/parser": "1.8.*",
-        "fuelphp/upload": "2.0.6"
+        "fuel/auth": "dev-ai-training-20260418 as 1.8.99",
+        "fuel/email": "dev-remote-test-2026-10-07 as 1.8.99",
+        "fuel/oil": "dev-remote-test-2026-10-07 as 1.8.99",
+        "fuel/orm": "dev-remote-test-2026-10-07 as 1.8.99",
+        "fuel/parser": "dev-remote-test-2026-10-07 as 1.8.99",
+        "fuelphp/upload": "2.0.6",
+        "monolog/monolog": "2.11.1 as 1.99.0",
+        "psr/log": "dev-remote-test-2026-10-07 as 3.0.99"
     },
     "require-dev": {
-        "fuel/docs": "1.8.*",
+        "fuel/docs": "dev-remote-test-2026-10-07 as 1.8.99",
         "phpunit/phpunit": "11.5.57"
     },
     "suggest": {
