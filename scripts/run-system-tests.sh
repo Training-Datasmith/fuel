@@ -48,6 +48,11 @@ composer update --no-interaction || {
   exit 2
 }
 
+composer audit || {
+  echo "COMPOSER_AUDIT_FAILED=1" >&2
+  exit 2
+}
+
 php scripts/check-cluster-pins.php
 
 php fuel/vendor/bin/phpunit -c fuel/app/phpunit.xml --colors=never --do-not-cache-result
@@ -64,8 +69,8 @@ set -e
 
 printf '%s\n' "$OUTPUT"
 
-if printf '%s\n' "$OUTPUT" | grep -q 'COMPOSER_UPDATE_FAILED=1\|Your requirements could not be resolved\|because they are affected by security advisories'; then
-  log "FAIL: composer update did not complete (see output for security advisory blockers; no bypass used)"
+if printf '%s\n' "$OUTPUT" | grep -q 'COMPOSER_UPDATE_FAILED=1\|COMPOSER_AUDIT_FAILED=1\|Your requirements could not be resolved\|because they are affected by security advisories'; then
+  log "FAIL: composer update/audit did not complete (see output; no audit bypass used)"
   exit 2
 fi
 

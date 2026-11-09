@@ -41,7 +41,7 @@ foreach ($packages as $pkg) {
     $byName[$pkg['name']] = $pkg;
 }
 
-/** @var array<string, array{sha: string, url_contains: string, forbid_url?: string}> */
+/** @var array<string, array{sha?: string, url_contains: string, forbid_url?: string, min_version?: string, version_prefix?: string}> */
 $expected = array(
     'fuel/auth' => array(
         'sha' => '98e75adaabd7c326860115195e7361b875ef6b22',
@@ -72,9 +72,8 @@ $expected = array(
         'url_contains' => 'Training-Datasmith/log',
     ),
     'fuel/core' => array(
-        'sha' => '050c3147b1d889223701b63e22f60e90bf46cc1e',
-        'url_contains' => 'fuel/core',
-        'forbid_url' => 'Training-Datasmith',
+        'sha' => '961bdab56e32827c944497e92a72572c4ab355ca',
+        'url_contains' => 'Training-Datasmith/core',
     ),
     'fuelphp/upload' => array(
         'sha' => '73b3abfa317c22d6b4d63588e9601c13623ea6f6',
@@ -82,14 +81,19 @@ $expected = array(
         'forbid_url' => 'Training-Datasmith',
     ),
     'composer/installers' => array(
-        'sha' => '12fb2dfe5e16183de69e784a7b84046c43d97e8e',
         'url_contains' => 'composer/installers',
         'forbid_url' => 'Training-Datasmith',
+        'min_version' => '2.3.0',
     ),
     'monolog/monolog' => array(
-        'sha' => 'bf2403f591c5a431b6e0e1170cbadd3d64499564',
         'url_contains' => 'monolog',
         'forbid_url' => 'Training-Datasmith',
+        'min_version' => '2.0.0',
+    ),
+    'phpseclib/phpseclib' => array(
+        'url_contains' => 'phpseclib',
+        'forbid_url' => 'Training-Datasmith',
+        'version_prefix' => '3.',
     ),
 );
 
@@ -108,13 +112,29 @@ foreach ($expected as $name => $spec) {
     $source = isset($pkg['source']) && is_array($pkg['source']) ? $pkg['source'] : array();
     $ref = isset($source['reference']) ? strtolower((string) $source['reference']) : '';
     $url = isset($source['url']) ? (string) $source['url'] : '';
-    $wantSha = strtolower($spec['sha']);
+    $version = isset($pkg['version']) ? (string) $pkg['version'] : '';
 
-    if ($ref === '' || strlen($ref) !== 40) {
-        fwrite(STDERR, "FAIL: {$name} has no 40-char source.reference (got ".var_export($ref, true).").\n");
-        $pkgFailures++;
-    } elseif ($ref !== $wantSha) {
-        fwrite(STDERR, "FAIL: {$name} reference {$ref} != expected {$wantSha}\n");
+    if (! empty($spec['sha'])) {
+        $wantSha = strtolower($spec['sha']);
+        if ($ref === '' || strlen($ref) !== 40) {
+            fwrite(STDERR, "FAIL: {$name} has no 40-char source.reference (got ".var_export($ref, true).").\n");
+            $pkgFailures++;
+        } elseif ($ref !== $wantSha) {
+            fwrite(STDERR, "FAIL: {$name} reference {$ref} != expected {$wantSha}\n");
+            $pkgFailures++;
+        }
+    }
+
+    if (! empty($spec['min_version'])) {
+        $normalized = ltrim($version, 'vV');
+        if ($normalized === '' || version_compare($normalized, $spec['min_version'], '<')) {
+            fwrite(STDERR, "FAIL: {$name} version {$version} is below minimum {$spec['min_version']}\n");
+            $pkgFailures++;
+        }
+    }
+
+    if (! empty($spec['version_prefix']) && strpos($version, $spec['version_prefix']) !== 0) {
+        fwrite(STDERR, "FAIL: {$name} version {$version} does not start with {$spec['version_prefix']}\n");
         $pkgFailures++;
     }
 
@@ -133,8 +153,8 @@ foreach ($expected as $name => $spec) {
         continue;
     }
 
-    $version = isset($pkg['version']) ? $pkg['version'] : '?';
-    fwrite(STDOUT, "OK {$name} {$version} @ {$ref}\n");
+    $displayRef = $ref !== '' ? $ref : '(no git ref)';
+    fwrite(STDOUT, "OK {$name} {$version} @ {$displayRef}\n");
 }
 
 if ($failures > 0) {
